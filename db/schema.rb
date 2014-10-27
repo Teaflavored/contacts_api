@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141027213234) do
+ActiveRecord::Schema.define(version: 20141027222422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,17 @@ ActiveRecord::Schema.define(version: 20141027213234) do
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
 
+  create_table "contact_groups", force: true do |t|
+    t.integer  "contact_id", null: false
+    t.integer  "group_id",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "contact_groups", ["contact_id", "group_id"], name: "index_contact_groups_on_contact_id_and_group_id", unique: true, using: :btree
+  add_index "contact_groups", ["contact_id"], name: "index_contact_groups_on_contact_id", using: :btree
+  add_index "contact_groups", ["group_id"], name: "index_contact_groups_on_group_id", using: :btree
+
   create_table "contact_shares", force: true do |t|
     t.integer  "contact_id", null: false
     t.integer  "user_id",    null: false
@@ -38,15 +49,25 @@ ActiveRecord::Schema.define(version: 20141027213234) do
   add_index "contact_shares", ["user_id"], name: "index_contact_shares_on_user_id", using: :btree
 
   create_table "contacts", force: true do |t|
+    t.string   "name",                       null: false
+    t.string   "email",                      null: false
+    t.integer  "user_id",                    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "favorited",  default: false
+  end
+
+  add_index "contacts", ["email", "user_id"], name: "index_contacts_on_email_and_user_id", unique: true, using: :btree
+  add_index "contacts", ["user_id"], name: "index_contacts_on_user_id", using: :btree
+
+  create_table "groups", force: true do |t|
     t.string   "name",       null: false
-    t.string   "email",      null: false
     t.integer  "user_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "contacts", ["email", "user_id"], name: "index_contacts_on_email_and_user_id", unique: true, using: :btree
-  add_index "contacts", ["user_id"], name: "index_contacts_on_user_id", using: :btree
+  add_index "groups", ["user_id"], name: "index_groups_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.datetime "created_at"

@@ -1,9 +1,14 @@
 class ContactsController < ApplicationController
   def index
-    own_contacts = User.find(params[:user_id]).contacts
-    shared_contacts = User.find(params[:user_id]).shared_contacts
-    render json: own_contacts + shared_contacts
+    if params[:group_id]
+      render json: Group.find(params[:group_id]).contacts
+    else
+      own_contacts = User.find(params[:user_id]).contacts
+      shared_contacts = User.find(params[:user_id]).shared_contacts
+      render json: own_contacts + shared_contacts
+    end
   end
+  
   
   def create
     contact = Contact.new(contact_params)
