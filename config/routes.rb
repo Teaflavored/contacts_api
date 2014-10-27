@@ -7,17 +7,7 @@ Rails.application.routes.draw do
     end
     resources :comments, only: :index
   end
-  resources :contacts, only: [:create, :destroy, :show, :update] do 
-    #custom route for favoriting a contact
-    resources :comments, only: :index
-  end
-  resources :contact_shares, only: [:create, :destroy] do
-    #
-  end
-    resources :groups, only: :index
-    resources :contacts, only: :index
-    resources :comments, only: :index
-  end
+
   resources :contacts, only: [:create, :destroy, :show, :update] do 
     resources :comments, only: :index
   end
