@@ -7,6 +7,7 @@
 #  user_id    :integer          not null
 #  created_at :datetime
 #  updated_at :datetime
+#  favorited  :boolean          default(FALSE)
 #
 
 class ContactShare < ActiveRecord::Base
@@ -15,4 +16,10 @@ class ContactShare < ActiveRecord::Base
   
   belongs_to :contact
   belongs_to :user
+  
+  def favorite!
+    self.favorited = (favorited ? false : true)
+    self.save!
+  end
+  
 end

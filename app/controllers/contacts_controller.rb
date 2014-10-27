@@ -38,6 +38,20 @@ class ContactsController < ApplicationController
     render json: Contact.find(params[:id])
   end
   
+  def favorite
+    user = User.find(params[:user_id])
+    contact = Contact.find(params[:contact_id])
+    contact_share = ContactShare.find_by(:user_id => params[:user_id], :contact_id => params[:contact_id])
+    if contact.user_id == user.id
+      contact.favorite!
+      render json: contact
+    elsif contact_share
+      contact_share.favorite!
+      render json: contact_share
+    end
+    
+  end
+  
   private
   def contact_params
     params.require(:contact).permit(:user_id, :email, :name)

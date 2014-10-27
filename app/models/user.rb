@@ -30,8 +30,16 @@ class User < ActiveRecord::Base
     source: :contact
   )
   
-  def favorite!(contact_id)
+  def favorite_contacts
+    favorite_contacts = []
+    contacts.each do |contact|
+      favorite_contacts << contact if contact.favorited?
+    end
     
+    shared_contacts.each do |contact|
+      favorite_contacts << contact if contact.favorited?
+    end
+    favorite_contacts
   end
   
 end
