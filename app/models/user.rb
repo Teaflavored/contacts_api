@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
     through: :contact_shares,
     source: :contact
   )
-  
+
   def favorite_contacts
     favorite_contacts = []
     contacts.each do |contact|
@@ -41,6 +41,5 @@ class User < ActiveRecord::Base
     end
     favorite_contacts
   end
-  
 end
 

@@ -16,7 +16,7 @@ class ContactShare < ActiveRecord::Base
   
   belongs_to :contact
   belongs_to :user
-  
+
   def favorite!
     self.favorited = (favorited ? false : true)
     self.save!

@@ -33,10 +33,9 @@ class Contact < ActiveRecord::Base
     through: :contact_shares,
     source: :user
   )
-  
   def favorite!
     self.favorited = (favorited ? false : true)
     self.save!
   end
-  
+
 end
