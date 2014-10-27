@@ -8,6 +8,7 @@
 #  user_id    :integer          not null
 #  created_at :datetime
 #  updated_at :datetime
+#  favorited  :boolean          default(FALSE)
 #
 
 class Contact < ActiveRecord::Base
@@ -15,7 +16,8 @@ class Contact < ActiveRecord::Base
   validates :email, presence: true, :uniqueness => {:scope => :user_id}
   
   has_many :comments, as: :commentable
-
+  has_many :contact_groups
+  has_many :groups, through: :contact_groups
 
   belongs_to(
     :owner,

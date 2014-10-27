@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   validates :username, presence: true, uniqueness: true
   
   has_many :comments, as: :commentable
+  has_many :groups
+  
   
   has_many(
     :contacts,
@@ -27,4 +29,10 @@ class User < ActiveRecord::Base
     through: :contact_shares,
     source: :contact
   )
+  
+  def favorite!(contact_id)
+    
+  end
+  
 end
+
