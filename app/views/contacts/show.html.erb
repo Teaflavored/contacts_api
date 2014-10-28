@@ -26,6 +26,28 @@
 	<% end %>
 </p>
 
+<p>
+	Add to Group:
+	<form action="/contact_groups" method="POST">
+		<% if flash.notice %>
+			<ul>
+			<% flash.notice.each do |error| %>
+				<li>
+					<%= error %>
+				</li>
+			</ul>
+			<% end %>
+		<% end %>
+		<input type="hidden" name="contact_group[contact_id]" value=<%= @contact.id %> >
+		<select name="contact_group[group_id]">
+			<% @user_groups.each do |group| %>
+				<option value=<%= group.id %>><%= group.name %></option>
+			<% end %>
+		</select>
+		<input type="submit" value="add to group!">
+	</form>
+</p>
+
 
 
 <%= link_to "Back to #{@contact.owner.username}'s contact list", user_contacts_url(@contact.owner) %>

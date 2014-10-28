@@ -5,10 +5,37 @@
 		<ul>
 		<% @own_contacts.each do |contact| %>
 			<li>
+				<span>
 				<%= link_to contact.name, contact_url(contact) %>
+				<form action="/contacts/<%= contact.id %>" method="POST">
+					<input type="hidden" name="_method" value="DELETE">
+					<input type="submit" value="Delete contact!">
+				</form></span>
 			</li>
 		<% end %>
 		</ul>
+
+		<h3>Add a new contact</h3>
+		<form action="/contacts" method="POST">
+		<% if flash.notice %>
+			<ul>
+			<% flash.notice.each do |error| %>
+				<li>
+					<%= error %>
+				</li>
+			</ul>
+			<% end %>
+		<% end %>
+			<input type="hidden" name="contact[user_id]" value=<%= @user.id %> > 
+			<label for="contact_name">Name</label>
+			<input type="text" name="contact[name]" id="contact_name" value=<%= @contact.name %> >
+			<br>
+			<label for="contact_email">Email</label>
+			<input type="text" name="contact[email]" id="contact_email" value=<%= @contact.email %> >
+			<br>
+			<input type="submit" value = "Add contact">
+		</form>
+
 	<% end %>
 
 	<% unless @shared_contacts.empty? %>
@@ -21,8 +48,12 @@
 		<% end %>
 		</ul>
 	<% end %>
+
+
 <% else %>
-	<% unless @group_contacts.empty? %>
+
+
+	<% if @group_contacts.length > 0 %>
 		<h2>Contacts in <%= @group_contacts.first.owner.username %> group</h2>
 		<ul>
 		<% @group_contacts.each do |contact| %>
@@ -31,10 +62,13 @@
 			</li>
 		<% end %>
 		</ul>
+
 	<% else %>
+
 		<p>
 			No contacts in group.
 		</p>
+
 	<% end %>
 <% end %>
 

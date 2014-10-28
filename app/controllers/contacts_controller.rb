@@ -4,19 +4,25 @@ class ContactsController < ApplicationController
       @user = Group.find(params[:group_id]).user
       @group_contacts = Group.find(params[:group_id]).contacts
     else
+      @contact = Contact.new
       @user = User.find(params[:user_id])
       @own_contacts = User.find(params[:user_id]).contacts
       @shared_contacts = User.find(params[:user_id]).shared_contacts
     end
   end
   
-  
+  def new
+    @contact = Contact.new
+  end
+
   def create
-    contact = Contact.new(contact_params)
-    if contact.save
-      render json: contact
+    @contact = Contact.new(contact_params)
+    if @contact.save
+      redirect_to user_contacts_url(@contact.owner)
     else
-      render json: contact.errors.full_messages, status: :unprocessable_entity
+      @user = User.find(@contact.user_id)
+      flash.notice = @contact.errors.full_messages
+      redirect_to user_contacts_url(@user)
     end
   end
   
@@ -34,13 +40,15 @@ class ContactsController < ApplicationController
   end
   
   def destroy
-    contact = Contact.find(params[:id])
-    contact.destroy
-    render json: contact
+    @contact = Contact.find(params[:id])
+    @user = @contact.owner
+    @contact.destroy
+    redirect_to user_contacts_url(@user)
   end
   
   def show
     @contact = Contact.find(params[:id])
+    @user_groups = @contact.owner.groups
   end
   
   def favorite
