@@ -1,10 +1,12 @@
 class ContactSharesController < ApplicationController
   def create
-    contact_share = ContactShare.new(contact_share_params)
-    if contact_share.save
-      render json: contact_share
+    @contact_share = ContactShare.new(contact_share_params)
+    if @contact_share.save
+      flash[:contact_notice] = ["Successfully shared!"]
+      redirect_to contact_url(@contact_share.contact_id)
     else
-      render json: contact_share.errors.full_messages, status: :unprocessable_entity
+      flash[:contact_notice] = @contact_share.errors.full_messages
+      redirect_to contact_url(@contact_share.contact_id)
     end
   end
   

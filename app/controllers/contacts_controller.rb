@@ -49,6 +49,7 @@ class ContactsController < ApplicationController
   def show
     @contact = Contact.find(params[:id])
     @user_groups = @contact.owner.groups
+    @other_users = User.where("users.id != ? ", @contact.owner.id)
   end
   
   def favorite

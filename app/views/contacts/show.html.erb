@@ -49,5 +49,27 @@
 </p>
 
 
+<p>
+	Share with:
+	<form action="/contact_shares" method="POST">
+		<% if flash[:contact_notice] %>
+			<ul>
+			<% flash[:contact_notice].each do |error| %>
+				<li>
+					<%= error %>
+				</li>
+			</ul>
+			<% end %>
+		<% end %>
+		<input type="hidden" name="contact_share[contact_id]" value=<%= @contact.id %> >
+		<select name="contact_share[user_id]">
+			<% @other_users.each do |user| %>
+				<option value=<%= user.id %>><%= user.username %></option>
+			<% end %>
+		</select>
+		<input type="submit" value="share with him!">
+	</form>
+</p>
+
 
 <%= link_to "Back to #{@contact.owner.username}'s contact list", user_contacts_url(@contact.owner) %>

@@ -15,7 +15,21 @@
 		<% end %>
 		</ul>
 
-		<h3>Add a new contact</h3>
+
+
+	<% end %>
+
+	<% unless @shared_contacts.empty? %>
+		<h2>Contacts shared with <%= @shared_contacts.first.owner.username %></h2>
+		<ul>
+		<% @shared_contacts.each do |contact| %>
+			<li>
+				<%= link_to contact.name, contact_url(contact) %>
+			</li>
+		<% end %>
+		</ul>
+	<% end %>
+<h3>Add a new contact</h3>
 		<form action="/contacts" method="POST">
 		<% if flash.notice %>
 			<ul>
@@ -35,20 +49,6 @@
 			<br>
 			<input type="submit" value = "Add contact">
 		</form>
-
-	<% end %>
-
-	<% unless @shared_contacts.empty? %>
-		<h2>Contacts shared with <%= @shared_contacts.first.owner.username %></h2>
-		<ul>
-		<% @shared_contacts.each do |contact| %>
-			<li>
-				<%= link_to contact.name, contact_url(contact) %>
-			</li>
-		<% end %>
-		</ul>
-	<% end %>
-
 
 <% else %>
 
