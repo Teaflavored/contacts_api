@@ -1,8 +1,10 @@
 class ContactsController < ApplicationController
   def index
     if params[:group_id]
+      @user = Group.find(params[:group_id]).user
       @group_contacts = Group.find(params[:group_id]).contacts
     else
+      @user = User.find(params[:user_id])
       @own_contacts = User.find(params[:user_id]).contacts
       @shared_contacts = User.find(params[:user_id]).shared_contacts
     end
