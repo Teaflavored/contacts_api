@@ -1,0 +1,31 @@
+<h1>Information for <%= @contact.name %></h1>
+<p>
+	Name: <%= @contact.name %>
+</p>
+
+<p>
+	E-mail: <%= @contact.email %>
+</p>
+
+<p>
+	<%= link_to "Edit #{@contact.name}", edit_contact_path(@contact) %>
+</p>
+
+<hr>
+<p>
+	Favorited? :
+	<% if @contact.favorited? %>
+		Yes
+	<% else %>
+		No
+	<% end %>
+	<% unless @contact.favorited? %>
+		<%= link_to "Favorite this!", user_contact_favorite_url(@contact.owner, @contact) %>
+	<% else %>
+		<%= link_to "un-Favorite this!", user_contact_favorite_url(@contact.owner, @contact) %>
+	<% end %>
+</p>
+
+
+
+<%= link_to "Back to #{@contact.owner.username}'s information", user_url(@contact.owner) %>

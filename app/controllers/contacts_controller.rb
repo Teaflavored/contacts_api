@@ -1,11 +1,10 @@
 class ContactsController < ApplicationController
   def index
     if params[:group_id]
-      render json: Group.find(params[:group_id]).contacts
+      @group_contacts = Group.find(params[:group_id]).contacts
     else
-      own_contacts = User.find(params[:user_id]).contacts
-      shared_contacts = User.find(params[:user_id]).shared_contacts
-      render json: own_contacts + shared_contacts
+      @own_contacts = User.find(params[:user_id]).contacts
+      @shared_contacts = User.find(params[:user_id]).shared_contacts
     end
   end
   
@@ -20,12 +19,16 @@ class ContactsController < ApplicationController
   end
   
   def update
-    contact = Contact.find(params[:id])
-    if contact.update(contact_params)
-      render json: contact
+    @contact = Contact.find(params[:id])
+    if @contact.update(contact_params)
+      redirect_to @contact
     else
-      render json: contact.errors.full_messages, status: :unprocessable_entity
+      flash.notice = @contact.errors.full_messages
     end
+  end
+
+  def edit
+    @contact = Contact.find(params[:id])
   end
   
   def destroy
@@ -35,7 +38,7 @@ class ContactsController < ApplicationController
   end
   
   def show
-    render json: Contact.find(params[:id])
+    @contact = Contact.find(params[:id])
   end
   
   def favorite
@@ -44,10 +47,10 @@ class ContactsController < ApplicationController
     contact_share = ContactShare.find_by(:user_id => params[:user_id], :contact_id => params[:contact_id])
     if contact.user_id == user.id
       contact.favorite!
-      render json: contact
+      redirect_to contact
     elsif contact_share
       contact_share.favorite!
-      render json: contact_share
+      redirect_to contact_share.contact
     end
     
   end

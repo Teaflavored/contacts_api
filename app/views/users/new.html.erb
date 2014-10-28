@@ -1,0 +1,22 @@
+<h1>Create new user</h1>
+
+<%= form_for @user do |f| %>
+	<% if flash.notice %>
+		<ul>
+		<% flash.notice.each do |error| %>
+			<li>
+				<%= error %>
+			</li>
+		<% end %>
+		</ul>
+	<% end %>
+	<p>
+	<%= f.label :user_name, "Username" %>
+	<%= f.text_field :username %>
+	</p>
+	<p>
+	<%= f.submit %>
+	</p>
+<% end %>
+
+<%= link_to "All users", users_url %>

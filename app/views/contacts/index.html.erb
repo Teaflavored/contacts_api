@@ -1,0 +1,39 @@
+
+<% if @own_contacts || @shared_contacts %>
+	<% unless @own_contacts.empty? %>
+		<h2><%= @own_contacts.first.owner.username %>'s contacts</h2>
+		<ul>
+		<% @own_contacts.each do |contact| %>
+			<li>
+				<%= link_to contact.name, contact_url(contact) %>
+			</li>
+		<% end %>
+		</ul>
+	<% end %>
+
+	<% unless @shared_contacts.empty? %>
+		<h2>Contacts shared with <%= @shared_contacts.first.owner.username %></h2>
+		<ul>
+		<% @shared_contacts.each do |contact| %>
+			<li>
+				<%= link_to contact.name, contact_url(contact) %>
+			</li>
+		<% end %>
+		</ul>
+	<% end %>
+<% else %>
+	<% unless @group_contacts.empty? %>
+		<h2>Contacts in <%= @group_contacts.first.owner.username %> group</h2>
+		<ul>
+		<% @group_contacts.each do |contact| %>
+			<li>
+				<%= link_to contact.name, contact_url(contact) %>
+			</li>
+		<% end %>
+		</ul>
+	<% else %>
+		<p>
+			No contacts in group.
+		</p>
+	<% end %>
+<% end %>

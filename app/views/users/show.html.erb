@@ -1,0 +1,31 @@
+<h1><%= @user.username %></h1>
+
+<p>
+	<%= link_to 'favorites', user_favorites_url(@user) %>
+</p>
+
+<p>
+	<%= link_to 'contacts', user_contacts_url(@user) %>
+</p>
+<% if @user.groups.length > 0 %>
+	<h2>Groups</h2>
+	<ul>
+		<% @user.groups.each do |group| %>
+			<li>
+				<%= link_to group.name, group_contacts_url(group) %>
+			</li>
+		<% end %>
+	</ul>
+<% end %>
+
+<% if @user.comments.length > 0 %>
+	<h2>Comments</h2>
+	<ul>
+		<% @user.comments.each do |comment| %>
+			<li>
+				<%= comment.body %>
+			</li>
+		<% end %>
+	</ul>
+
+<% end %>

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users, only: [:create, :destroy, :index, :show, :update] do
+  resources :users do
     get 'favorites'
     resources :groups, only: :index
     resources :contacts, only: :index do
@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :comments, only: :index
   end
 
-  resources :contacts, only: [:create, :destroy, :show, :update] do 
+  resources :contacts do 
     resources :comments, only: :index
   end
   resources :contact_shares, only: [:create, :destroy]

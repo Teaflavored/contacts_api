@@ -1,0 +1,10 @@
+<h1><%= @user.username %>'s favorite contacts</h1>
+<ul>
+	<% @favorite_contacts.each do |contact| %>
+	<li>
+		<%= link_to contact.name, contact_url(contact) %>
+	</li>
+	<% end %>
+</ul>
+
+<%= link_to "Back to #{@user.username}'s info", user_path(@user) %>
