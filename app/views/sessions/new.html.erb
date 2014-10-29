@@ -1,15 +1,9 @@
-<h1>Create new user</h1>
+<h1>Sign In</h1>
 
-<form action="/users" method="POST">
-	<%= render 'layouts/error' %>
+<form action="/session" method="POST">
 	<label for="user_username">Username</label>
 	<input type="text" name="user[username]" id="user_username">
-
 	<label for="user_password">Password</label>
 	<input type="password" name="user[password]" id="user_password">
-
-
-	<input type="submit" value="Create!">
+	<input type="submit" value="Sign in">
 </form>
-
-<%= link_to "All users", users_url %>

@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :ensure_logged_in, except: [:new]
+
   def index
     @users = User.all
   end
@@ -10,6 +12,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      log_in(@user)
       redirect_to users_url
     else
       flash.now.notice = @user.errors.full_messages
@@ -18,7 +21,7 @@ class UsersController < ApplicationController
   end
   
   def show
-    @user = User.find(params[:id])
+    @user = current_user
   end
   
   def update
@@ -44,6 +47,10 @@ class UsersController < ApplicationController
   private
     
   def user_params
-    params.require(:user).permit(:username)
+    params.require(:user).permit(:username, :password)
+  end
+
+  def ensure_logged_in
+    redirect_to new_session_url if current_user.nil?
   end
 end

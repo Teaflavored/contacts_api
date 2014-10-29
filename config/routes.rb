@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root to: 'users#index'
   resources :users do
     get 'favorites'
     resources :groups, only: :index
@@ -20,5 +21,5 @@ Rails.application.routes.draw do
   end
   
   resources :contact_groups, only: [:create, :destroy]
-  
+  resource :session, only: [:create, :destroy, :new]
 end
